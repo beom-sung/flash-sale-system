@@ -12,3 +12,12 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.MySQL8Dialect
+  redis:
+    port: 6379
+    password: # 비밀번호가 설정된 경우 입력
+    timeout: 2000ms
+  data:
+    redis:
+      host: localhost
+      port: 20002
+      timeout: 2000ms
