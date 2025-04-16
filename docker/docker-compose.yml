@@ -52,6 +52,19 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     restart: always
 
+  kafka-ui:
+    container_name: flashsale-kafka-ui
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - "20006:8080"
+    depends_on:
+      - kafka
+    environment:
+      KAFKA_CLUSTERS_0_NAME: flashsale-cluster
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
+    restart: always
+
 volumes:
   mysql-data:
   redis-data:
