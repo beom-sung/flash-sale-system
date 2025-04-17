@@ -4,6 +4,7 @@ import com.commerce.flashsale.message.KafkaConfig;
 import com.commerce.flashsale.repository.Order;
 import com.commerce.flashsale.repository.OrderRepository;
 import com.commerce.flashsale.repository.RedisRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -23,7 +24,6 @@ public class OrderService {
     public boolean create(String uuid) {
         boolean validate = validationService.validate(uuid); // 성공 or 실패
         redisRepository.save(uuid, validate); // 재고 count 처리
-        orderRepository.save(Order.builder().uuid(uuid).success(validate).build()); // 구매 히스토리 저장
         produceMessage(validate);
         return validate;
     }
@@ -42,5 +42,18 @@ public class OrderService {
             log.error("카프카 메시지 발행 실패 - 예외: {}", e.getMessage(), e);
             throw new RuntimeException("카프카 메시지 발행 중 오류 발생: " + e.getMessage(), e);
         }
+    }
+
+
+    @Transactional
+    public void createOrder(String uuid, boolean success) {
+        // 주문 상태 업데이트 로직
+        Order order = Order.builder()
+            .uuid(uuid)
+            .success(success)
+            .build();
+
+        orderRepository.save(order);
+        log.info("주문 상태 업데이트 완료");
     }
 }
