@@ -19,19 +19,23 @@ public class OrderService {
     private final ValidationService validationService;
     private final RedisRepository redisRepository;
     private final OrderRepository orderRepository;
-    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
 
     public boolean create(String uuid) {
         boolean validate = validationService.validate(uuid); // 성공 or 실패
         redisRepository.save(uuid, validate); // 재고 count 처리
-        produceMessage(validate);
+        produceMessage(uuid, validate);
         return validate;
     }
 
-    public void produceMessage(boolean validate) {
+    public void produceMessage(String uuid, boolean success) {
         try {
-            log.info("카프카 메시지 발행 시작 - 토픽: {}, 메시지: {}", KafkaConfig.TOPIC_NAME, validate);
-            SendResult<String, String> stringStringSendResult = kafkaTemplate.send(KafkaConfig.TOPIC_NAME, String.valueOf(validate))
+            log.info("카프카 메시지 발행 시작 - 토픽: {}, 메시지: {}", KafkaConfig.TOPIC_NAME, success);
+            OrderEvent event = OrderEvent.builder()
+                .uuid(uuid)
+                .success(success)
+                .build();
+            SendResult<String, Object> stringStringSendResult = kafkaTemplate.send(KafkaConfig.TOPIC_NAME, event)
                 .get();
             log.info("카프카 메시지 발행 성공 - 결과: {}, 토픽: {}, 파티션: {}, 오프셋: {}",
                 stringStringSendResult,
