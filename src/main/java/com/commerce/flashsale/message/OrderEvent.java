@@ -1,4 +1,4 @@
-package com.commerce.flashsale.service;
+package com.commerce.flashsale.message;
 
 import lombok.Builder;
 

@@ -1,7 +1,7 @@
-package com.commerce.flashsale.listner;
+package com.commerce.flashsale.message.listener;
 
 import com.commerce.flashsale.message.KafkaConfig;
-import com.commerce.flashsale.service.OrderEvent;
+import com.commerce.flashsale.message.OrderEvent;
 import com.commerce.flashsale.service.OrderService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
