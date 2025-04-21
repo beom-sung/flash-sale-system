@@ -1,10 +1,7 @@
 package com.commerce.flashsale.service;
 
 import com.commerce.flashsale.message.producer.OrderEventProducer;
-import com.commerce.flashsale.repository.Order;
-import com.commerce.flashsale.repository.OrderRepository;
 import com.commerce.flashsale.repository.RedisRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,7 +13,6 @@ public class OrderService {
 
     private final ValidationService validationService;
     private final RedisRepository redisRepository;
-    private final OrderRepository orderRepository;
     private final OrderEventProducer orderEventProducer;
 
     public boolean create(String uuid) {
@@ -36,16 +32,5 @@ public class OrderService {
 
         orderEventProducer.produceMessage(uuid, true);
         return true;
-    }
-
-    @Transactional
-    public void createOrder(String uuid, boolean success) {
-        Order order = Order.builder()
-            .uuid(uuid)
-            .success(success)
-            .build();
-
-        orderRepository.save(order);
-        log.info("주문 상태 업데이트 완료");
     }
 }
