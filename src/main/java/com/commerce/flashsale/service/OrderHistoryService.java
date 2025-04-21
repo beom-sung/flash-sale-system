@@ -2,10 +2,10 @@ package com.commerce.flashsale.service;
 
 import com.commerce.flashsale.repository.OrderHistory;
 import com.commerce.flashsale.repository.OrderHistoryRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
@@ -23,5 +23,10 @@ public class OrderHistoryService {
 
         orderHistoryRepository.save(order);
         log.info("주문 상태 업데이트 완료");
+    }
+
+    @Transactional(readOnly = true)
+    public boolean hasSuccessHistory(String uuid) {
+        return orderHistoryRepository.hasSuccessHistory(uuid);
     }
 }
