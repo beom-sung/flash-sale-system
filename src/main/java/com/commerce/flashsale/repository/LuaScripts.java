@@ -1,15 +1,13 @@
 package com.commerce.flashsale.repository;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import lombok.experimental.UtilityClass;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 
-@Configuration
+@UtilityClass
 public class LuaScripts {
 
-    @Bean
-    public DefaultRedisScript<Boolean> orderDecrementScript() {
-        String script = """
+    public static final DefaultRedisScript<Boolean> ORDER_DECREMENT_SCRIPT = new DefaultRedisScript<>(
+        """
             local current = redis.call('get', KEYS[1])
             if current and tonumber(current) > 0 then
                 redis.call('decr', KEYS[1])
@@ -17,8 +15,7 @@ public class LuaScripts {
             else
                 return 0
             end
-            """;
-        return new DefaultRedisScript<>(script, Boolean.class);
-    }
-
+            """,
+        Boolean.class
+    );
 }
