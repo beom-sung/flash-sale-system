@@ -23,9 +23,21 @@ public class OrderService {
 
     public boolean create(String uuid) {
         boolean validate = validationService.validate(uuid); // 성공 or 실패
-        redisRepository.save(uuid, validate); // 재고 count 처리
-        produceMessage(uuid, validate);
-        return validate;
+        if (!validate) {
+            log.error("주문 검증 단계 실패 - UUID: {}", uuid);
+            produceMessage(uuid, false);
+            return false;
+        }
+
+        boolean reduced = redisRepository.reduceOrderCount();
+        if (!reduced) {
+            log.error("주문 수량 부족 - UUID: {}", uuid);
+            produceMessage(uuid, false);
+            return false;
+        }
+
+        produceMessage(uuid, true);
+        return true;
     }
 
     public void produceMessage(String uuid, boolean success) {
