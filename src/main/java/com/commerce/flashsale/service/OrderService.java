@@ -23,7 +23,7 @@ public class OrderService {
             return false;
         }
 
-        boolean reduced = redisRepository.reduceOrderCount();
+        boolean reduced = redisRepository.reduceStockCount(uuid);
         if (!reduced) {
             log.error("주문 수량 부족 - UUID: {}", uuid);
             orderEventProducer.produceMessage(uuid, false);

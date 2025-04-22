@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.commerce.flashsale.repository.LuaScripts.ORDER_DECREMENT_SCRIPT;
+import static com.commerce.flashsale.repository.LuaScripts.STOCK_DECREMENT_SCRIPT;
 
 @Component
 @RequiredArgsConstructor
@@ -16,10 +16,10 @@ public class RedisRepository {
 
     private final RedisTemplate<String, Object> redisTemplate;
 
-    public boolean reduceOrderCount() {
+    public boolean reduceStockCount(String uuid) {
         Boolean execute = redisTemplate.execute(
-            ORDER_DECREMENT_SCRIPT,
-            List.of(ORDER_COUNT)
+            STOCK_DECREMENT_SCRIPT,
+            List.of(ORDER_COUNT, uuid)
         );
 
         return Boolean.TRUE.equals(execute);
