@@ -76,3 +76,12 @@
 ![img.png](image/img_2.png)
 - 원자성을 보장하는 Lua Script를 통해서 재고를 해당 회원이 구매이력이 존재하는지 까지 관리를 하도록 처리한다. => atomic 하게 이력 검사 및 재고 차감이 가능해짐
 
+### Kafka DLT
+```java
+DeadLetterPublishingRecoverer recoverer = new DeadLetterPublishingRecoverer(kafkaTemplate,
+    (record, exception) -> {
+        return new TopicPartition(record.topic() + ".DLT", record.partition()); // DLT 파티션이 2개 이상이면 0번 파티션에만 이벤트가 쏠리니까 이건 좀 위험하지 않을까?
+        return new TopicPartition(record.topic() + ".DLT", 0); // DLT 파티션이 2개 이상이면 0번 파티션에만 이벤트가 쏠리니까 이건 좀 위험하지 않을까?
+        return new TopicPartition(record.topic() + ".DLT", -1); // 원본 토픽 파티션을 아무리 늘려도 DLT 파티션은 신경 안써도 된다. 알아서 파티션에 잘 분배 되어 이벤트가 들어간다.
+    });
+```
