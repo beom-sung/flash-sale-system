@@ -31,9 +31,13 @@ public class OrderHistoryService {
         return orderHistoryRepository.hasSuccessHistory(uuid);
     }
 
-
     @Transactional(readOnly = true)
     public Integer getOrderSuccessCount(String productName) {
         return orderHistoryRepository.countBySuccessIsTrueAndProductName(productName);
+    }
+
+    @Transactional
+    public void deleteAllOrderHistory() {
+        orderHistoryRepository.deleteAll();
     }
 }

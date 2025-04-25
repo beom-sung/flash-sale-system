@@ -31,4 +31,10 @@ public class OrderController {
     public void createProduct(@RequestBody ProductRequest request) {
         orderService.createProduct(request.productName(), request.stockCount());
     }
+
+    @PostMapping("/clear")
+    public void clear() {
+        orderHistoryService.deleteAllOrderHistory();
+        orderService.deleteAllKeys();
+    }
 }

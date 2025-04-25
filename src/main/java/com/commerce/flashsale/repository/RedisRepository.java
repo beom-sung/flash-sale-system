@@ -23,9 +23,13 @@ public class RedisRepository {
     public boolean reduceStockCount(String productName, String uuid) {
         Boolean execute = redisTemplate.execute(
             STOCK_DECREMENT_SCRIPT,
-            List.of(KEY_PREFIX + productName, productName + "_" +uuid)
+            List.of(KEY_PREFIX + productName, productName + "_" + uuid)
         );
 
         return Boolean.TRUE.equals(execute);
+    }
+
+    public void deleteAllKeys() {
+        redisTemplate.delete(redisTemplate.keys("*"));
     }
 }

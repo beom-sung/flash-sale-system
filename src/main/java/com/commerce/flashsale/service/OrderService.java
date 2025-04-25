@@ -37,4 +37,8 @@ public class OrderService {
     public void createProduct(String productName, int stockCount) {
         redisRepository.setProduct(productName, stockCount);
     }
+
+    public void deleteAllKeys() {
+        redisRepository.deleteAllKeys();
+    }
 }
