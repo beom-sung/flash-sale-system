@@ -14,4 +14,6 @@ public interface OrderHistoryRepository extends JpaRepository<OrderHistory, Long
         WHERE order_history.uuid = :uuid AND order_history.success = true
         """, nativeQuery = true)
     boolean hasSuccessHistory(@Param("uuid") String uuid);
+
+    Integer countBySuccessIsTrue();
 }

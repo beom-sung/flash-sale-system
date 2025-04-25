@@ -29,4 +29,11 @@ public class OrderHistoryService {
     public boolean hasSuccessHistory(String uuid) {
         return orderHistoryRepository.hasSuccessHistory(uuid);
     }
+
+
+    @Transactional(readOnly = true)
+    public Integer getOrderSuccessCount() {
+        return orderHistoryRepository.countBySuccessIsTrue();
+    }
+
 }
