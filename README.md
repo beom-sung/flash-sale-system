@@ -34,7 +34,7 @@
 ## 생각해 볼 것
 - fallback 전략
   - [x] OrderEvent 발행 실패 전략 -> 프로듀서쪽에 retry 관련 설정
-  - [ ] OrderEvent 처리 실패 전략 -> 컨슈머쪽에 (DLT, Backoff)
+  - [x] OrderEvent 처리 실패 전략 -> 컨슈머쪽에 (DLT, Backoff)
 - [x] 이미 주문 이력이 있는 UUID의 중복 구매 방지 전략 (Redis 활용? 아니면 DB?)
 - [x] Redis를 활용한 재고 관리 전략 (Lua 스크립트? 아니면 Atomic Operation?)
 
