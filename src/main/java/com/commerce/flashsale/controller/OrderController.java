@@ -26,4 +26,9 @@ public class OrderController {
     public Integer getOrderSuccessCount(@RequestParam String productName) {
         return orderHistoryService.getOrderSuccessCount(productName);
     }
+
+    @PostMapping("/products")
+    public void createProduct(@RequestBody ProductRequest request) {
+        orderService.createProduct(request.productName(), request.stockCount());
+    }
 }

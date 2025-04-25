@@ -33,4 +33,8 @@ public class OrderService {
         orderEventProducer.produceMessage(uuid, productName, true);
         return true;
     }
+
+    public void createProduct(String productName, int stockCount) {
+        redisRepository.setProduct(productName, stockCount);
+    }
 }
