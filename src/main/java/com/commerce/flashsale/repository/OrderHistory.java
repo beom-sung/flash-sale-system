@@ -20,6 +20,7 @@ public class OrderHistory {
     private Long id;
     private String uuid;
     private Boolean success;
+    private String productName;
     @CreationTimestamp
     private LocalDateTime createdAt;
 

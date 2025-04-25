@@ -1,7 +1,8 @@
 package com.commerce.flashsale.controller;
 
 public record OrderRequest(
-    String uuid
+    String uuid,
+    String productName
 ) {
 
 }

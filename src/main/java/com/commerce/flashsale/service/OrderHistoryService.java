@@ -32,8 +32,7 @@ public class OrderHistoryService {
 
 
     @Transactional(readOnly = true)
-    public Integer getOrderSuccessCount() {
-        return orderHistoryRepository.countBySuccessIsTrue();
+    public Integer getOrderSuccessCount(String productName) {
+        return orderHistoryRepository.countBySuccessIsTrueAndProductName(productName);
     }
-
 }

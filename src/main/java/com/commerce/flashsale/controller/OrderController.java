@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -17,12 +18,12 @@ public class OrderController {
 
     @PostMapping("/orders")
     public OrderResponse createOrder(@RequestBody OrderRequest request) {
-        boolean success = orderService.create(request.uuid());
+        boolean success = orderService.create(request.uuid(), request.productName());
         return new OrderResponse(request.uuid(), success);
     }
 
     @GetMapping("/orders")
-    public Integer getOrderSuccessCount() {
-        return orderHistoryService.getOrderSuccessCount();
+    public Integer getOrderSuccessCount(@RequestParam String productName) {
+        return orderHistoryService.getOrderSuccessCount(productName);
     }
 }

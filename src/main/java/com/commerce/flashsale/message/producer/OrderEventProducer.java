@@ -15,11 +15,12 @@ public class OrderEventProducer {
 
     private final KafkaTemplate<String, Object> kafkaTemplate;
 
-    public void produceMessage(String uuid, boolean success) {
+    public void produceMessage(String uuid, String productName, boolean success) {
         try {
             log.info("카프카 메시지 발행 시작 - 토픽: {}, 메시지: {}", KafkaConfig.TOPIC_NAME, success);
             OrderEvent event = OrderEvent.builder()
                 .uuid(uuid)
+                .productName(productName)
                 .success(success)
                 .build();
             SendResult<String, Object> stringStringSendResult = kafkaTemplate.send(KafkaConfig.TOPIC_NAME, event)
