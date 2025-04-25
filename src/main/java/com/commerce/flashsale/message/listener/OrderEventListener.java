@@ -18,11 +18,13 @@ public class OrderEventListener {
     private final OrderHistoryService orderHistoryService;
     private final ObjectMapper objectMapper;
 
-    @KafkaListener(topics = KafkaConfig.TOPIC_NAME,
+    @KafkaListener(
+        topics = KafkaConfig.TOPIC_NAME,
         groupId = KafkaConfig.LISTENER_NAME,
-        containerFactory = "kafkaListenerContainerFactory")
+        containerFactory = "kafkaListenerContainerFactory"
+    )
     public void listen(String message, Acknowledgment acknowledgment) {
-        try{
+        try {
             OrderEvent event = objectMapper.readValue(message, OrderEvent.class);
             log.info("메시지 수신: {}", message);
             orderHistoryService.recordOrderHistory(event.uuid(), event.success());

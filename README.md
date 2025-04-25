@@ -85,3 +85,6 @@ DeadLetterPublishingRecoverer recoverer = new DeadLetterPublishingRecoverer(kafk
         return new TopicPartition(record.topic() + ".DLT", -1); // 원본 토픽 파티션을 아무리 늘려도 DLT 파티션은 신경 안써도 된다. 알아서 파티션에 잘 분배 되어 이벤트가 들어간다.
     });
 ```
+- 원본 토픽에서 컨슘에 3번 실패한 경우 DLT로 발행된다.
+- 3번 처리에 실패했다는 것은 일반적이지 않은 메시지이거나, 상황일 수 있으므로 DLT는 실시간으로 컨슘하지 않는다.
+- DLT는 별도의 배치 잡 등으로 처리한다.
