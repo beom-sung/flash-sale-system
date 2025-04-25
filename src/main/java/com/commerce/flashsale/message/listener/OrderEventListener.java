@@ -27,7 +27,7 @@ public class OrderEventListener {
         try {
             OrderEvent event = objectMapper.readValue(message, OrderEvent.class);
             log.info("메시지 수신: {}", message);
-            orderHistoryService.recordOrderHistory(event.uuid(), event.success());
+            orderHistoryService.recordOrderHistory(event.uuid(), event.success(), event.productName());
             acknowledgment.acknowledge();
         } catch (Exception exception) {
             throw new RuntimeException("메시지 처리 중 오류 발생: " + exception.getMessage(), exception);

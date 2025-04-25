@@ -15,9 +15,10 @@ public class OrderHistoryService {
     private final OrderHistoryRepository orderHistoryRepository;
 
     @Transactional
-    public void recordOrderHistory(String uuid, boolean success) {
+    public void recordOrderHistory(String uuid, boolean success, String productName) {
         OrderHistory order = OrderHistory.builder()
             .uuid(uuid)
+            .productName(productName)
             .success(success)
             .build();
 

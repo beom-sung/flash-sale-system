@@ -25,8 +25,9 @@ public class OrderHistory {
     private LocalDateTime createdAt;
 
     @Builder
-    public OrderHistory(String uuid, Boolean success) {
+    public OrderHistory(String uuid, Boolean success, String productName) {
         this.uuid = uuid;
         this.success = success;
+        this.productName = productName;
     }
 }

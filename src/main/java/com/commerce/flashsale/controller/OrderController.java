@@ -23,7 +23,7 @@ public class OrderController {
     }
 
     @GetMapping("/orders")
-    public Integer getOrderSuccessCount(@RequestParam String productName) {
+    public Integer getOrderSuccessCount(@RequestParam(name = "productName") String productName) {
         return orderHistoryService.getOrderSuccessCount(productName);
     }
 

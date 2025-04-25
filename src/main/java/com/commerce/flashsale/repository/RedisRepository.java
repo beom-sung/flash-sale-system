@@ -20,10 +20,10 @@ public class RedisRepository {
         redisTemplate.opsForValue().set(KEY_PREFIX + productName, stockCount);
     }
 
-    public boolean reduceStockCount(String uuid) {
+    public boolean reduceStockCount(String productName, String uuid) {
         Boolean execute = redisTemplate.execute(
             STOCK_DECREMENT_SCRIPT,
-            List.of(KEY_PREFIX, uuid)
+            List.of(KEY_PREFIX + productName, productName + "_" +uuid)
         );
 
         return Boolean.TRUE.equals(execute);
