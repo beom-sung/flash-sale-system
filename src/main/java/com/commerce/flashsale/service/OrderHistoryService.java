@@ -27,11 +27,6 @@ public class OrderHistoryService {
     }
 
     @Transactional(readOnly = true)
-    public boolean hasSuccessHistory(String uuid) {
-        return orderHistoryRepository.hasSuccessHistory(uuid);
-    }
-
-    @Transactional(readOnly = true)
     public Integer getOrderSuccessCount(String productName) {
         return orderHistoryRepository.countBySuccessIsTrueAndProductName(productName);
     }

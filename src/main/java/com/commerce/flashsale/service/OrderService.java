@@ -16,7 +16,7 @@ public class OrderService {
     private final OrderEventProducer orderEventProducer;
 
     public boolean create(String uuid, String productName) {
-        boolean validate = validationService.validate(uuid);
+        boolean validate = validationService.validate();
         if (!validate) {
             log.error("주문 검증 단계 실패 - UUID: {}", uuid);
             orderEventProducer.produceMessage(uuid, productName, false);

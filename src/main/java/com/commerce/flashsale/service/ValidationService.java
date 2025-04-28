@@ -9,13 +9,7 @@ import java.util.concurrent.ThreadLocalRandom;
 @RequiredArgsConstructor
 public class ValidationService {
 
-    private final OrderHistoryService orderHistoryService;
-
-    public boolean validate(String uuid) {
-        boolean success = orderHistoryService.hasSuccessHistory(uuid);
-        if(success) {
-            return false;
-        }
+    public boolean validate() {
         int random = ThreadLocalRandom.current().nextInt(10);
         return random != 0;
     }
