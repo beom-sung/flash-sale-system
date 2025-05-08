@@ -103,6 +103,13 @@ DeadLetterPublishingRecoverer recoverer = new DeadLetterPublishingRecoverer(kafk
 - 3번 처리에 실패했다는 것은 일반적이지 않은 메시지이거나, 상황일 수 있으므로 DLT는 실시간으로 컨슘하지 않는다.
 - DLT는 별도의 배치 잡 등으로 처리한다.
 
+### Kafka 메세지 발행을 비동기로 처리하면 성능이 빠를 것이다.
+
+- 1000명의 사용자가 총 10000개의 요청을 날렸을 때 모든 요청을 처리하는데 16초가 걸림
+- 카프카 메세지 발송을 하는 것 자체를 비동기로 
+
+
+
 ---
 
 ## 테스트
@@ -127,7 +134,7 @@ docker-compose -p flash-sale -f docker/docker-compose.yml up -d
 python3 script/concurrency_test.py
 ```
 
-**실행 결과 예시**
+**정합성 테스트 결과**
 
 ```bash
 서버 저장소를 초기화합니다...
@@ -160,3 +167,9 @@ DB에 데이터가 적재될 때까지 3초 대기 중...
 ```
 
 
+**성능 테스트 결과**
+
+![img.png](image/test-result.png)
+- RPS : 1591.1
+- p95 : 15ms
+- p99 140ms
